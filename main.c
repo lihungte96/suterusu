@@ -249,7 +249,9 @@ void *get_tcp_seq_show ( const char *path )
     if ( (filep = filp_open(path, O_RDONLY, 0)) == NULL )
         return NULL;
 
-    #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 10, 0)
+	#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0)
+	afinfo = PDE_DATA(filep->f_path.dentry->d_inode);
+    #elif LINUX_VERSION_CODE < KERNEL_VERSION(3, 10, 0)
     afinfo = PDE(filep->f_dentry->d_inode)->data;
     #else
     afinfo = PDE_DATA(filep->f_dentry->d_inode);
@@ -270,7 +272,9 @@ void *get_udp_seq_show ( const char *path )
     if ( (filep = filp_open(path, O_RDONLY, 0)) == NULL )
         return NULL;
 
-    #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 10, 0)
+	#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0)
+	afinfo = PDE_DATA(filep->f_path.dentry->d_inode);
+    #elif LINUX_VERSION_CODE < KERNEL_VERSION(3, 10, 0)
     afinfo = PDE(filep->f_dentry->d_inode)->data;
     #else
     afinfo = PDE_DATA(filep->f_dentry->d_inode);
